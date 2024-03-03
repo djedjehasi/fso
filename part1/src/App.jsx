@@ -1,33 +1,24 @@
-import Header from './Header.jsx'
-import Content from './Content.jsx'
-import Total from './Total'
-
+import { useDebugValue, useState } from 'react'
 
 const App = () => {
-  const course = { 
-    name: 'Half Stack application development',
-    parts: [
-      {
-      name:'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
-}
+
+  const [ counter, setCounter ] = useState(0)
+
+  const increaseByOne = () => setCounter(counter + 1)
+
+  const setZero = () => setCounter(0)
 
   return (
     <div>
-      <Header course={course.name}/>
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <div>{counter}</div>
+      <button onClick={increaseByOne}>
+        plus
+      </button>
+      <button onClick={setZero}>
+        zero
+      </button>
     </div>
+    
   )
 }
 
