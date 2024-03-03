@@ -23,8 +23,8 @@ const App = () => {
   return (
     <div>
       <Header course={course}/>
-      <Content data={[part1, exercises1, part2, exercises2, part3, exercises3]} />
-      <Total sum={exercises1 + exercises2 + exercises3} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
