@@ -1,4 +1,4 @@
-import Contact from "./Person"
+import Person from "./Person"
 
 
 const Persons = (props) => {
@@ -8,11 +8,11 @@ const Persons = (props) => {
         {
         props.filter === ''
       ? props.persons.map(contact => 
-        <Contact key={contact.id} name={contact.name} number={contact.number} />
+        <Person key={contact.id} name={contact.name} number={contact.number} />
       )
       : props.persons.filter(contact => contact.name.toLowerCase().includes(props.filter.toLowerCase()))
       .map(contact => 
-        <Contact key={contact.id} name={contact.name} number={contact.number} />
+        <Person key={contact.id} name={contact.name} number={contact.number} />
       )
     }
         </div>
