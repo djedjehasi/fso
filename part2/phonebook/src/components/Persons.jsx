@@ -7,12 +7,13 @@ const Persons = (props) => {
         <div>
         {
         props.filter === ''
-      ? props.persons.map(contact => 
-        <Person key={contact.id} name={contact.name} number={contact.number} />
+      ? props.persons.map(contact =>
+        <Person key={contact.id} name={contact.name} number={contact.number} removePerson={props.removePerson} id={contact.id} />
+        
       )
       : props.persons.filter(contact => contact.name.toLowerCase().includes(props.filter.toLowerCase()))
       .map(contact => 
-        <Person key={contact.id} name={contact.name} number={contact.number} />
+        <Person key={contact.id} name={contact.name} number={contact.number} removePerson={props.removePerson}/>
       )
     }
         </div>

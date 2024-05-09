@@ -26,13 +26,21 @@ const App = () => {
       const contactObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1
+        id: (persons.length + 1).toString()
       }
       persons.find(contact => contact.name === newName)
       ? window.alert(`${newName} is already added to phonebook`)
-      : setPersons(persons.concat(contactObject))
-      setNewName('')
-      setNewNumber('')
+      : personsService
+          .create(contactObject)
+          .then(newContact => {
+            setPersons(persons.concat(newContact))
+          })
+    }
+
+    const delelteHandler = id =>{
+      const url = 'http://localhost:3001/persons'
+      const person = persons.find(p => p.id === id)
+      console.log(person.id)
     }
 
 
@@ -64,7 +72,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons filter={filter} persons={persons} />
+      <Persons filter={filter} persons={persons} removePerson={delelteHandler} />
     </div>
     
   )
