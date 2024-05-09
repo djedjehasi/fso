@@ -43,9 +43,9 @@ const App = () => {
       personsService
         .remove(id)
         .then(response => {
+          alert(`${person.name} has been deleted`)
           setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
         })
-        alert(`${person.name} has been deleted`)
       
     }
 
