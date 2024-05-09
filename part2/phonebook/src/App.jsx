@@ -40,7 +40,13 @@ const App = () => {
     const delelteHandler = id =>{
       const url = 'http://localhost:3001/persons'
       const person = persons.find(p => p.id === id)
-      console.log(person.id)
+      personsService
+        .remove(id)
+        .then(response => {
+          setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
+        })
+        alert(`${person.name} has been deleted`)
+      
     }
 
 
