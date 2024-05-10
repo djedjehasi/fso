@@ -24,18 +24,28 @@ const App = () => {
   const addContact = (event) => {
     event.preventDefault()
       const contactObject = {
-        name: newName,
+        name: newName, 
         number: newNumber,
         id: (persons.length + 1).toString()
       }
-      persons.find(contact => contact.name === newName)
-      ? window.alert(`${newName} is already added to phonebook`)
+
+      const oldObject = persons.find(contact => contact.name === newName )
+
+      oldObject
+      ? confirm('update number?')
+        ? personsService
+          .update(oldObject.id, contactObject)
+          .then(returnedPerson => {
+            setPersons(prevPersons => prevPersons.map(person => person.id === oldObject.id ? contactObject : person))
+          })
+        : console.log('not updated')
       : personsService
           .create(contactObject)
           .then(newContact => {
             setPersons(persons.concat(newContact))
           })
-    }
+      
+      }
 
     const delelteHandler = id =>{
       const url = 'http://localhost:3001/persons'
@@ -43,10 +53,9 @@ const App = () => {
       personsService
         .remove(id)
         .then(response => {
-          alert(`${person.name} has been deleted`)
           setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
+          alert(`${person.name} has been deleted`)
         })
-      
     }
 
 
