@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import axios from 'axios'
 import personsService from './services/persons'
 
@@ -11,7 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState('some erorr happned..')
+  const [NotificationMessage, setNotificationMessage] = useState(null)
 
 
   useEffect(() => {
@@ -38,13 +39,24 @@ const App = () => {
           .update(oldObject.id, contactObject)
           .then(returnedPerson => {
             setPersons(prevPersons => prevPersons.map(person => person.id === oldObject.id ? contactObject : person))
-            setErrorMessage('number changed!')
+            setNotificationMessage(
+              `${oldObject.name} number as been changed`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
           })
         : console.log('not updated')
       : personsService
           .create(contactObject)
           .then(newContact => {
             setPersons(persons.concat(newContact))
+            setNotificationMessage(
+              `Added ${contactObject.name} `
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            },5000)
           })
       
       }
@@ -77,6 +89,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={NotificationMessage} />
       <div>
       <Filter filter={filter} handleChange={handleFilterChange} />
       </div>
