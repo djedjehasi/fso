@@ -11,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState('some erorr happned..')
 
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const App = () => {
           .update(oldObject.id, contactObject)
           .then(returnedPerson => {
             setPersons(prevPersons => prevPersons.map(person => person.id === oldObject.id ? contactObject : person))
+            setErrorMessage('number changed!')
           })
         : console.log('not updated')
       : personsService
