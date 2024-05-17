@@ -12,8 +12,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [NotificationMessage, setNotificationMessage] = useState(null)
-
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationStatus, setNotificationStatus] = useState(true)
 
   useEffect(() => {
     personsService
@@ -39,6 +39,7 @@ const App = () => {
           .update(oldObject.id, contactObject)
           .then(returnedPerson => {
             setPersons(prevPersons => prevPersons.map(person => person.id === oldObject.id ? contactObject : person))
+            setNotificationStatus(true)
             setNotificationMessage(
               `${oldObject.name} number as been changed`
             )
@@ -51,6 +52,7 @@ const App = () => {
           .create(contactObject)
           .then(newContact => {
             setPersons(persons.concat(newContact))
+            setNotificationStatus(true)
             setNotificationMessage(
               `Added ${contactObject.name} `
             )
@@ -69,6 +71,15 @@ const App = () => {
         .then(response => {
           setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
           alert(`${person.name} has been deleted`)
+        })
+        .catch(error => {
+          setNotificationStatus(false)
+          setNotificationMessage(`Information of ${person.name} has already been removed from server`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationStatus(true)
+          },5000)
+          setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
         })
     }
 
@@ -89,7 +100,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={NotificationMessage} />
+      <Notification message={notificationMessage} status={notificationStatus} />
       <div>
       <Filter filter={filter} handleChange={handleFilterChange} />
       </div>
