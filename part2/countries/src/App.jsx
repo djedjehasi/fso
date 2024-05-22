@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Search from './components/Search'
 
-function App() {
+import Filter from './components/Filter'
+
+const  App = () => {
   const [search, setSearch] = useState('')
   const [name, setName] = useState('')
 
@@ -16,7 +17,7 @@ useEffect(() => {
 
  return (
   <div>
-    <Search value={search} handleChange={onChange} />
+    <Filter value={search} handleChange={handleInputChange} />
       <div>{name}</div>
   </div>
  )
