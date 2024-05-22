@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import Filter from './components/Filter'
+import Countires from './components/Countires'
+
 
 const  App = () => {
   const [search, setSearch] = useState('')
@@ -15,10 +17,12 @@ useEffect(() => {
     .then(response => setName(response.data.name.common))
   },[])
 
+  console.log(name)
+
  return (
   <div>
     <Filter value={search} handleChange={handleInputChange} />
-      <div>{name}</div>
+      <Countires filter={name}/>
   </div>
  )
 }
