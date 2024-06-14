@@ -3,7 +3,7 @@ const Countires = (props) => {
     
     return (
         <div>
-            {props.filter}
+            {props.countriesList}
         </div>
     )
 }

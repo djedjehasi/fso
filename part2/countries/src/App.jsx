@@ -3,26 +3,38 @@ import axios from 'axios'
 
 import Filter from './components/Filter'
 import Countires from './components/Countires'
-
+import countiresServices from './services/countires'
 
 const  App = () => {
   const [search, setSearch] = useState('')
-  const [name, setName] = useState('')
+  const [countriesList, setcountriesList] = useState([])
+  const [filteredList, setFilteredList] = useState([])
+
+  useEffect(() => {
+    countiresServices
+    .getName()
+    .then(country => {
+      setcountriesList(country.map(country => country.name.common))
+    })
+  },[])
+
+  
+  console.log(countriesList.map(item => item))
 
   const handleInputChange = (event) => {
     setSearch(event.target.value)
+    setFilteredList(countriesList.filter(item => item.toLowerCase().includes(search)))
   }
-useEffect(() => {
-    axios.get('https://studies.cs.helsinki.fi/restcountries/api/name/finland')
-    .then(response => setName(response.data.name.common))
-  },[])
 
-  console.log(name)
+  
+console.log(countriesList)
+
 
  return (
   <div>
-    <Filter value={search} handleChange={handleInputChange} />
-      <Countires filter={name}/>
+    <Filter value={search}
+     handleChange={handleInputChange} />
+      <Countires countriesList={countriesList} />
   </div>
  )
 }
