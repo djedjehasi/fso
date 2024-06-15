@@ -5,6 +5,7 @@ import Filter from './components/Filter'
 import Countires from './components/Countires'
 import countiresServices from './services/countires'
 
+
 const  App = () => {
   const [search, setSearch] = useState('')
   const [countriesList, setcountriesList] = useState([])
@@ -18,23 +19,22 @@ const  App = () => {
     })
   },[])
 
-  
-  console.log(countriesList.map(item => item))
 
   const handleInputChange = (event) => {
-    setSearch(event.target.value)
-    setFilteredList(countriesList.filter(item => item.toLowerCase().includes(search)))
+    const newSearch = event.target.value.toLowerCase()
+    setSearch(newSearch)
+    setFilteredList(countriesList.filter(country => country.toLowerCase().includes(newSearch)))
   }
 
   
-console.log(countriesList)
+
 
 
  return (
   <div>
     <Filter value={search}
      handleChange={handleInputChange} />
-      <Countires countriesList={countriesList} />
+      <Countires countriesList={filteredList} />
   </div>
  )
 }
