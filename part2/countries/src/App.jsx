@@ -2,28 +2,51 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import Filter from './components/Filter'
-import Countires from './components/Countires'
+import Display from './components/Display'
 import countiresServices from './services/countires'
 
 
 const  App = () => {
   const [search, setSearch] = useState('')
-  const [countriesList, setcountriesList] = useState([])
-  const [filteredList, setFilteredList] = useState([])
+  const [countriesNamesList, setCountriesNamesList] = useState([])
+  const [countryObject, setCountryObject] = useState([])
+  const [result, setResult] = useState([])
+  const [countryCardData, setCountryCardData] = useState(null)
 
   useEffect(() => {
     countiresServices
     .getName()
     .then(country => {
-      setcountriesList(country.map(country => country.name.common))
+      setCountriesNamesList(country.map(country => {
+        setCountryObject(prev => ({
+          ...prev,
+          [country.name.common]: country
+        }))
+         return country.name.common
+      }))
+
     })
   },[])
 
 
+
+  const getDisplayedData = (search) => {
+    let nameList = countriesNamesList.filter(countryName => countryName.toLowerCase().startsWith(search.toLowerCase()))  
+    if(nameList.length >= 10) {
+      return 'too many countries'
+    } else if (nameList.length == 1) {
+      const currentCountry = countryObject[nameList[0]]
+      setCountryCardData(currentCountry)
+      setSearch(nameList[0])
+    } else {
+      return nameList
+    }
+  }
+
   const handleInputChange = (event) => {
     const newSearch = event.target.value.toLowerCase()
     setSearch(newSearch)
-    setFilteredList(countriesList.filter(country => country.toLowerCase().includes(newSearch)))
+    setResult(getDisplayedData(newSearch))
   }
 
   
@@ -34,7 +57,7 @@ const  App = () => {
   <div>
     <Filter value={search}
      handleChange={handleInputChange} />
-      <Countires countriesList={filteredList} />
+    <Display content={result} countryCard={countryCardData} searchValue={search}/>
   </div>
  )
 }
