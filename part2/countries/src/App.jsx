@@ -33,7 +33,7 @@ const  App = () => {
   const getDisplayedData = (search) => {
     let nameList = countriesNamesList.filter(countryName => countryName.toLowerCase().startsWith(search.toLowerCase()))  
     if(nameList.length >= 10) {
-      return 'too many countries'
+      return ['too many countries']
     } else if (nameList.length == 1) {
       const currentCountry = countryObject[nameList[0]]
       setCountryCardData(currentCountry)
