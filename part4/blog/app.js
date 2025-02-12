@@ -1,8 +1,8 @@
-const config = reuqire('./utils/config')
-const experss = require('experss')
-const app = experss()
+const config = require('./utils/config')
+const express = require('express')
+const app = express()
 const cors = require('cors')
-const bolgsRouter = require('./controllers/blogs')
+const blogsRouter = require('./controllers/blogs')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
@@ -10,13 +10,16 @@ logger.info('connecting to', config.MONGODB_URI)
 
 
 
-mongoose.connect(mongoUrl)
+mongoose.connect(config.MONGODB_URI)
 .then( result => {
-    utils.logger('connected to MongoDB')
+    logger.info('connected to MongoDB')
 })
 .catch(error => {
-    utils.logger('error connecting to MongoDB:', error.message)
+    logger.error('error connecting to MongoDB:', error.message)
 })
 
 app.use(cors())
 app.use(express.json())
+app.use('/api/blogs', blogsRouter)
+
+module.exports = app

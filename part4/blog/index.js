@@ -1,8 +1,6 @@
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const app = require('./app')
 
 
 const PORT = config.PORT
